@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>REACH AGM 2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--gold:#c9a84c;
+--gold-light:#e7cb72;
+--bg:#050505;
+--white:#fff;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+background:var(--bg);
+font-family:'DM Sans',sans-serif;
+color:white;
+}
+
+/* SLIDES */
+
+.slide{
+position:absolute;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:60px 24px 120px;
+opacity:0;
+pointer-events:none;
+transition:opacity .45s ease;
+text-align:center;
+}
+
+.slide.active{
+opacity:1;
+pointer-events:auto;
+}
+
+/* GLOW */
+
+.glow{
+position:absolute;
+inset:0;
+background:
+radial-gradient(circle at center,
+rgba(201,168,76,.08),
+transparent 70%);
+pointer-events:none;
+}
+
+/* TYPOGRAPHY */
+
+.label{
+letter-spacing:6px;
+font-size:11px;
+text-transform:uppercase;
+color:var(--gold);
+margin-bottom:14px;
+}
+
+.h1{
+font-family:'Playfair Display',serif;
+font-size:72px;
+font-weight:900;
+line-height:1;
+}
+
+.h1 span{
+color:var(--gold);
+}
+
+.h2{
+font-family:'Playfair Display',serif;
+font-size:52px;
+font-weight:700;
+line-height:1.1;
+}
+
+.sub{
+font-family:'Playfair Display',serif;
+font-style:italic;
+font-size:24px;
+opacity:.75;
+margin-top:10px;
+}
+
+.divider{
+width:80px;
+height:2px;
+background:linear-gradient(to right,transparent,var(--gold),transparent);
+margin:22px auto;
+}
+
+.small{
+font-size:13px;
+letter-spacing:4px;
+text-transform:uppercase;
+opacity:.4;
+}
+
+.badge{
+border:1px solid rgba(201,168,76,.4);
+padding:14px 30px;
+margin-top:30px;
+font-size:12px;
+letter-spacing:5px;
+text-transform:uppercase;
+color:var(--gold);
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+width:min(1000px,90vw);
+margin-top:40px;
+}
+
+.card{
+background:rgba(201,168,76,.04);
+border:1px solid rgba(201,168,76,.15);
+padding:28px;
+border-radius:4px;
+}
+
+.card h3{
+font-size:44px;
+font-family:'Playfair Display',serif;
+color:var(--gold);
+margin-bottom:8px;
+}
+
+.card p{
+font-size:13px;
+text-transform:uppercase;
+letter-spacing:2px;
+opacity:.7;
+}
+
+/* BAR CHART */
+
+.chart{
+display:flex;
+align-items:flex-end;
+gap:26px;
+height:280px;
+margin-top:50px;
+}
+
+.bar-wrap{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:10px;
+}
+
+.bar{
+width:80px;
+background:linear-gradient(to top,var(--gold),var(--gold-light));
+border-radius:4px 4px 0 0;
+}
+
+.month{
+font-size:12px;
+letter-spacing:3px;
+opacity:.5;
+text-transform:uppercase;
+}
+
+.val{
+font-family:'Playfair Display',serif;
+font-size:20px;
+color:var(--gold);
+}
+
+/* ANALYTICS */
+
+.analytics{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:24px;
+width:min(1000px,92vw);
+margin-top:40px;
+}
+
+.analytics .card{
+text-align:left;
+}
+
+.analytics img{
+width:100%;
+border-radius:6px;
+margin-top:16px;
+border:1px solid rgba(255,255,255,.08);
+}
+
+/* NAV */
+
+.nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:90px;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:18px;
+background:rgba(0,0,0,.75);
+backdrop-filter:blur(10px);
+z-index:999;
+}
+
+button{
+background:none;
+border:1px solid rgba(201,168,76,.4);
+color:var(--gold);
+padding:16px 26px;
+font-size:13px;
+letter-spacing:4px;
+text-transform:uppercase;
+cursor:pointer;
+transition:.25s;
+}
+
+button:hover{
+background:var(--gold);
+color:black;
+}
+
+.dots{
+display:flex;
+gap:10px;
+}
+
+.dot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:rgba(201,168,76,.2);
+cursor:pointer;
+transition:.25s;
+}
+
+.dot.active{
+width:28px;
+border-radius:20px;
+background:var(--gold);
+}
+
+.counter{
+position:fixed;
+top:18px;
+right:22px;
+font-size:12px;
+letter-spacing:3px;
+color:rgba(201,168,76,.45);
+z-index:999;
+}
+
+@media(max-width:900px){
+
+.h1{
+font-size:52px;
+}
+
+.h2{
+font-size:36px;
+}
+
+.grid,
+.analytics{
+grid-template-columns:1fr;
+}
+
+.chart{
+gap:14px;
+height:220px;
+}
+
+.bar{
+width:50px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="counter" id="counter">01 / 06</div>
+
+<!-- SLIDE 1 -->
+
+<section class="slide active">
+
+<div class="glow"></div>
+
+<div class="label">Annual General Meeting 2026</div>
+
+<h1 class="h1">
+Social <span>Media</span>
+</h1>
+
+<div class="sub">Year in Review</div>
+
+<div class="divider"></div>
+
+<div class="small">January — May 2026</div>
+
+<div class="badge">
+REACH Summerstrand — Reformed Evangelical Anglican Church
+</div>
+
+</section>
+
+<!-- SLIDE 2 -->
+
+<section class="slide">
+
+<div class="glow"></div>
+
+<div class="label">What We Built</div>
+
+<h2 class="h2">Scope of Work</h2>
+
+<div class="divider"></div>
+
+<div class="grid">
+
+<div class="card">
+<h3>🎨</h3>
+<p>Brand Identity</p>
+</div>
+
+<div class="card">
+<h3>📣</h3>
+<p>Event Promotion</p>
+</div>
+
+<div class="card">
+<h3>🎬</h3>
+<p>Reels & Content</p>
+</div>
+
+<div class="card">
+<h3>📖</h3>
+<p>Devotional Content</p>
+</div>
+
+<div class="card">
+<h3>📋</h3>
+<p>Onboarding Materials</p>
+</div>
+
+<div class="card">
+<h3>📊</h3>
+<p>Consistency & Strategy</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- SLIDE 3 -->
+
+<section class="slide">
+
+<div class="glow"></div>
+
+<div class="label">Growth</div>
+
+<h2 class="h2">Performance Overview</h2>
+
+<div class="divider"></div>
+
+<div class="grid">
+
+<div class="card">
+<h3>2,979</h3>
+<p>Views</p>
+</div>
+
+<div class="card">
+<h3>147</h3>
+<p>Engagement</p>
+</div>
+
+<div class="card">
+<h3>907</h3>
+<p>Total Followers</p>
+</div>
+
+<div class="card">
+<h3>357</h3>
+<p>3-Second Views</p>
+</div>
+
+<div class="card">
+<h3>122</h3>
+<p>1-Minute Views</p>
+</div>
+
+<div class="card">
+<h3>367</h3>
+<p>Viewers</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- SLIDE 4 -->
+
+<section class="slide">
+
+<div class="glow"></div>
+
+<div class="label">Monthly Growth</div>
+
+<h2 class="h2">Views on the Rise</h2>
+
+<div class="divider"></div>
+
+<div class="chart">
+
+<div class="bar-wrap">
+<div class="val">246</div>
+<div class="bar" style="height:40px"></div>
+<div class="month">Jan</div>
+</div>
+
+<div class="bar-wrap">
+<div class="val">563</div>
+<div class="bar" style="height:90px"></div>
+<div class="month">Feb</div>
+</div>
+
+<div class="bar-wrap">
+<div class="val">1.1K</div>
+<div class="bar" style="height:150px"></div>
+<div class="month">Mar</div>
+</div>
+
+<div class="bar-wrap">
+<div class="val">5.9K</div>
+<div class="bar" style="height:250px"></div>
+<div class="month">Apr</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- SLIDE 5 -->
+
+<section class="slide">
+
+<div class="glow"></div>
+
+<div class="label">Facebook Analytics</div>
+
+<h2 class="h2">Audience Insights</h2>
+
+<div class="divider"></div>
+
+<div class="analytics">
+
+<div class="card">
+<h3>Views</h3>
+<p>Facebook performance analytics</p>
+<img src="https://i.imgur.com/FmQxB5L.jpeg">
+</div>
+
+<div class="card">
+<h3>Engagement</h3>
+<p>Interaction and activity</p>
+<img src="https://i.imgur.com/4n2t0kW.jpeg">
+</div>
+
+<div class="card">
+<h3>Audience</h3>
+<p>Follower growth & demographics</p>
+<img src="https://i.imgur.com/y9vK4QK.jpeg">
+</div>
+
+<div class="card">
+<h3>Messaging</h3>
+<p>Conversations started</p>
+<img src="https://i.imgur.com/6m7fR9l.jpeg">
+</div>
+
+</div>
+
+</section>
+
+<!-- SLIDE 6 -->
+
+<section class="slide">
+
+<div class="glow"></div>
+
+<div class="label">Closing</div>
+
+<h2 class="h2">
+Thank You
+</h2>
+
+<div class="sub">
+For the support, consistency and growth ✨
+</div>
+
+<div class="divider"></div>
+
+<div class="grid">
+
+<div class="card">
+<h3>2.9K</h3>
+<p>Total Views</p>
+</div>
+
+<div class="card">
+<h3>907</h3>
+<p>Followers</p>
+</div>
+
+<div class="card">
+<h3>147</h3>
+<p>Engagement</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- NAVIGATION -->
+
+<div class="nav">
+
+<button id="prevBtn">← Prev</button>
+
+<div class="dots" id="dots"></div>
+
+<button id="nextBtn">Next →</button>
+
+</div>
+
+<script>
+
+const slides = document.querySelectorAll('.slide');
+const dotsContainer = document.getElementById('dots');
+const counter = document.getElementById('counter');
+
+let current = 0;
+
+/* CREATE DOTS */
+
+slides.forEach((_,index)=>{
+
+const dot = document.createElement('div');
+
+dot.classList.add('dot');
+
+if(index===0){
+dot.classList.add('active');
+}
+
+dot.addEventListener('click',()=>{
+goToSlide(index);
+});
+
+dotsContainer.appendChild(dot);
+
+});
+
+const dots = document.querySelectorAll('.dot');
+
+/* SHOW SLIDE */
+
+function goToSlide(index){
+
+slides[current].classList.remove('active');
+dots[current].classList.remove('active');
+
+current = index;
+
+if(current < 0){
+current = slides.length - 1;
+}
+
+if(current >= slides.length){
+current = 0;
+}
+
+slides[current].classList.add('active');
+dots[current].classList.add('active');
+
+counter.innerHTML =
+String(current + 1).padStart(2,'0')
++
+' / ' +
+String(slides.length).padStart(2,'0');
+
+}
+
+/* BUTTONS */
+
+document.getElementById('nextBtn')
+.addEventListener('click',()=>{
+
+goToSlide(current + 1);
+
+});
+
+document.getElementById('prevBtn')
+.addEventListener('click',()=>{
+
+goToSlide(current - 1);
+
+});
+
+/* KEYBOARD */
+
+document.addEventListener('keydown',(e)=>{
+
+if(e.key === 'ArrowRight'){
+goToSlide(current + 1);
+}
+
+if(e.key === 'ArrowLeft'){
+goToSlide(current - 1);
+}
+
+});
+
+</script>
+
+</body>
+</html>
