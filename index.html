@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>REACH AGM 2026</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -10,16 +12,16 @@
 <style>
 
 :root{
---gold:#c9a84c;
---gold-light:#e7cb72;
+--gold:#d4b04c;
 --bg:#050505;
---white:#fff;
+--white:#ffffff;
 }
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 html,body{
@@ -28,28 +30,34 @@ height:100%;
 overflow:hidden;
 background:var(--bg);
 font-family:'DM Sans',sans-serif;
+position:fixed;
+inset:0;
 color:white;
 }
 
 /* SLIDES */
 
 .slide{
-position:absolute;
+position:fixed;
 inset:0;
+width:100vw;
+height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-padding:60px 24px 120px;
+padding:70px 24px 120px;
 opacity:0;
 pointer-events:none;
-transition:opacity .45s ease;
+transition:opacity .4s ease;
+overflow-y:auto;
 text-align:center;
 }
 
 .slide.active{
 opacity:1;
 pointer-events:auto;
+z-index:2;
 }
 
 /* GLOW */
@@ -59,7 +67,7 @@ position:absolute;
 inset:0;
 background:
 radial-gradient(circle at center,
-rgba(201,168,76,.08),
+rgba(212,176,76,.08),
 transparent 70%);
 pointer-events:none;
 }
@@ -67,18 +75,22 @@ pointer-events:none;
 /* TYPOGRAPHY */
 
 .label{
-letter-spacing:6px;
 font-size:11px;
+letter-spacing:6px;
 text-transform:uppercase;
 color:var(--gold);
-margin-bottom:14px;
+margin-bottom:18px;
+position:relative;
+z-index:2;
 }
 
 .h1{
 font-family:'Playfair Display',serif;
-font-size:72px;
+font-size:clamp(52px,10vw,90px);
 font-weight:900;
 line-height:1;
+position:relative;
+z-index:2;
 }
 
 .h1 span{
@@ -87,24 +99,30 @@ color:var(--gold);
 
 .h2{
 font-family:'Playfair Display',serif;
-font-size:52px;
+font-size:clamp(38px,7vw,60px);
 font-weight:700;
 line-height:1.1;
+position:relative;
+z-index:2;
 }
 
 .sub{
 font-family:'Playfair Display',serif;
 font-style:italic;
-font-size:24px;
+font-size:clamp(20px,4vw,28px);
 opacity:.75;
-margin-top:10px;
+margin-top:12px;
+position:relative;
+z-index:2;
 }
 
 .divider{
-width:80px;
+width:90px;
 height:2px;
 background:linear-gradient(to right,transparent,var(--gold),transparent);
-margin:22px auto;
+margin:24px auto;
+position:relative;
+z-index:2;
 }
 
 .small{
@@ -112,57 +130,69 @@ font-size:13px;
 letter-spacing:4px;
 text-transform:uppercase;
 opacity:.4;
+position:relative;
+z-index:2;
 }
 
 .badge{
-border:1px solid rgba(201,168,76,.4);
-padding:14px 30px;
-margin-top:30px;
+margin-top:34px;
+padding:14px 24px;
+border:1px solid rgba(212,176,76,.4);
 font-size:12px;
-letter-spacing:5px;
+letter-spacing:4px;
 text-transform:uppercase;
 color:var(--gold);
+max-width:90%;
+position:relative;
+z-index:2;
 }
 
 /* GRID */
 
 .grid{
+width:min(1100px,92vw);
 display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-width:min(1000px,90vw);
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:22px;
 margin-top:40px;
+position:relative;
+z-index:2;
 }
 
 .card{
-background:rgba(201,168,76,.04);
-border:1px solid rgba(201,168,76,.15);
-padding:28px;
+background:rgba(255,255,255,.02);
+border:1px solid rgba(212,176,76,.15);
+padding:34px 24px;
 border-radius:4px;
+backdrop-filter:blur(6px);
 }
 
 .card h3{
-font-size:44px;
 font-family:'Playfair Display',serif;
+font-size:54px;
 color:var(--gold);
-margin-bottom:8px;
+margin-bottom:12px;
 }
 
 .card p{
-font-size:13px;
+font-size:14px;
+letter-spacing:3px;
 text-transform:uppercase;
-letter-spacing:2px;
 opacity:.7;
+line-height:1.5;
 }
 
-/* BAR CHART */
+/* CHART */
 
 .chart{
 display:flex;
 align-items:flex-end;
-gap:26px;
-height:280px;
+justify-content:center;
+gap:20px;
+height:300px;
 margin-top:50px;
+position:relative;
+z-index:2;
 }
 
 .bar-wrap{
@@ -173,43 +203,64 @@ gap:10px;
 }
 
 .bar{
-width:80px;
-background:linear-gradient(to top,var(--gold),var(--gold-light));
+width:70px;
+background:linear-gradient(to top,var(--gold),#f1d578);
 border-radius:4px 4px 0 0;
 }
 
-.month{
-font-size:12px;
-letter-spacing:3px;
-opacity:.5;
-text-transform:uppercase;
-}
-
-.val{
+.value{
 font-family:'Playfair Display',serif;
 font-size:20px;
 color:var(--gold);
 }
 
+.month{
+font-size:12px;
+letter-spacing:3px;
+text-transform:uppercase;
+opacity:.5;
+}
+
 /* ANALYTICS */
 
 .analytics{
+width:min(1100px,92vw);
 display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:24px;
-width:min(1000px,92vw);
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:26px;
 margin-top:40px;
+position:relative;
+z-index:2;
 }
 
-.analytics .card{
+.analytics-card{
+background:rgba(255,255,255,.02);
+border:1px solid rgba(212,176,76,.15);
+padding:22px;
+border-radius:4px;
 text-align:left;
 }
 
-.analytics img{
+.analytics-card h3{
+font-family:'Playfair Display',serif;
+font-size:48px;
+color:var(--gold);
+margin-bottom:10px;
+}
+
+.analytics-card p{
+font-size:12px;
+letter-spacing:3px;
+text-transform:uppercase;
+opacity:.6;
+margin-bottom:18px;
+}
+
+.analytics-card img{
 width:100%;
 border-radius:6px;
-margin-top:16px;
 border:1px solid rgba(255,255,255,.08);
+display:block;
 }
 
 /* NAV */
@@ -220,20 +271,21 @@ bottom:0;
 left:0;
 right:0;
 height:90px;
+background:rgba(0,0,0,.92);
+backdrop-filter:blur(12px);
 display:flex;
 justify-content:center;
 align-items:center;
 gap:18px;
-background:rgba(0,0,0,.75);
-backdrop-filter:blur(10px);
 z-index:999;
+padding:0 16px;
 }
 
 button{
 background:none;
-border:1px solid rgba(201,168,76,.4);
+border:1px solid rgba(212,176,76,.4);
 color:var(--gold);
-padding:16px 26px;
+padding:16px 28px;
 font-size:13px;
 letter-spacing:4px;
 text-transform:uppercase;
@@ -255,16 +307,18 @@ gap:10px;
 width:10px;
 height:10px;
 border-radius:50%;
-background:rgba(201,168,76,.2);
-cursor:pointer;
+background:rgba(212,176,76,.25);
 transition:.25s;
+cursor:pointer;
 }
 
 .dot.active{
-width:28px;
+width:30px;
 border-radius:20px;
 background:var(--gold);
 }
+
+/* COUNTER */
 
 .counter{
 position:fixed;
@@ -272,32 +326,30 @@ top:18px;
 right:22px;
 font-size:12px;
 letter-spacing:3px;
-color:rgba(201,168,76,.45);
+color:rgba(212,176,76,.5);
 z-index:999;
 }
 
-@media(max-width:900px){
+/* MOBILE */
 
-.h1{
-font-size:52px;
-}
-
-.h2{
-font-size:36px;
-}
-
-.grid,
-.analytics{
-grid-template-columns:1fr;
-}
+@media(max-width:768px){
 
 .chart{
-gap:14px;
 height:220px;
+gap:14px;
 }
 
 .bar{
 width:50px;
+}
+
+button{
+padding:14px 18px;
+font-size:11px;
+}
+
+.nav{
+gap:10px;
 }
 
 }
@@ -315,17 +367,23 @@ width:50px;
 
 <div class="glow"></div>
 
-<div class="label">Annual General Meeting 2026</div>
+<div class="label">
+Annual General Meeting 2026
+</div>
 
 <h1 class="h1">
 Social <span>Media</span>
 </h1>
 
-<div class="sub">Year in Review</div>
+<div class="sub">
+Year in Review
+</div>
 
 <div class="divider"></div>
 
-<div class="small">January — May 2026</div>
+<div class="small">
+January — May 2026
+</div>
 
 <div class="badge">
 REACH Summerstrand — Reformed Evangelical Anglican Church
@@ -339,9 +397,13 @@ REACH Summerstrand — Reformed Evangelical Anglican Church
 
 <div class="glow"></div>
 
-<div class="label">What We Built</div>
+<div class="label">
+What We Built
+</div>
 
-<h2 class="h2">Scope of Work</h2>
+<h2 class="h2">
+Scope of Work
+</h2>
 
 <div class="divider"></div>
 
@@ -349,17 +411,17 @@ REACH Summerstrand — Reformed Evangelical Anglican Church
 
 <div class="card">
 <h3>🎨</h3>
-<p>Brand Identity</p>
+<p>Brand Identity & Redesign</p>
 </div>
 
 <div class="card">
 <h3>📣</h3>
-<p>Event Promotion</p>
+<p>Event Posters & Promotion</p>
 </div>
 
 <div class="card">
 <h3>🎬</h3>
-<p>Reels & Content</p>
+<p>Content Capture & Reels</p>
 </div>
 
 <div class="card">
@@ -387,9 +449,13 @@ REACH Summerstrand — Reformed Evangelical Anglican Church
 
 <div class="glow"></div>
 
-<div class="label">Growth</div>
+<div class="label">
+Performance
+</div>
 
-<h2 class="h2">Performance Overview</h2>
+<h2 class="h2">
+Facebook Analytics
+</h2>
 
 <div class="divider"></div>
 
@@ -397,7 +463,7 @@ REACH Summerstrand — Reformed Evangelical Anglican Church
 
 <div class="card">
 <h3>2,979</h3>
-<p>Views</p>
+<p>Total Views</p>
 </div>
 
 <div class="card">
@@ -435,35 +501,39 @@ REACH Summerstrand — Reformed Evangelical Anglican Church
 
 <div class="glow"></div>
 
-<div class="label">Monthly Growth</div>
+<div class="label">
+Growth
+</div>
 
-<h2 class="h2">Views on the Rise</h2>
+<h2 class="h2">
+Views on the Rise
+</h2>
 
 <div class="divider"></div>
 
 <div class="chart">
 
 <div class="bar-wrap">
-<div class="val">246</div>
-<div class="bar" style="height:40px"></div>
+<div class="value">246</div>
+<div class="bar" style="height:50px"></div>
 <div class="month">Jan</div>
 </div>
 
 <div class="bar-wrap">
-<div class="val">563</div>
+<div class="value">563</div>
 <div class="bar" style="height:90px"></div>
 <div class="month">Feb</div>
 </div>
 
 <div class="bar-wrap">
-<div class="val">1.1K</div>
+<div class="value">1.1K</div>
 <div class="bar" style="height:150px"></div>
 <div class="month">Mar</div>
 </div>
 
 <div class="bar-wrap">
-<div class="val">5.9K</div>
-<div class="bar" style="height:250px"></div>
+<div class="value">5.9K</div>
+<div class="bar" style="height:260px"></div>
 <div class="month">Apr</div>
 </div>
 
@@ -477,36 +547,40 @@ REACH Summerstrand — Reformed Evangelical Anglican Church
 
 <div class="glow"></div>
 
-<div class="label">Facebook Analytics</div>
+<div class="label">
+Audience Insights
+</div>
 
-<h2 class="h2">Audience Insights</h2>
+<h2 class="h2">
+Analytics Breakdown
+</h2>
 
 <div class="divider"></div>
 
 <div class="analytics">
 
-<div class="card">
+<div class="analytics-card">
 <h3>Views</h3>
-<p>Facebook performance analytics</p>
-<img src="https://i.imgur.com/FmQxB5L.jpeg">
+<p>Facebook Page Performance</p>
+<img src="https://picsum.photos/600/1000?1">
 </div>
 
-<div class="card">
+<div class="analytics-card">
 <h3>Engagement</h3>
-<p>Interaction and activity</p>
-<img src="https://i.imgur.com/4n2t0kW.jpeg">
+<p>Interactions & Activity</p>
+<img src="https://picsum.photos/600/1000?2">
 </div>
 
-<div class="card">
+<div class="analytics-card">
 <h3>Audience</h3>
-<p>Follower growth & demographics</p>
-<img src="https://i.imgur.com/y9vK4QK.jpeg">
+<p>Follower Growth & Demographics</p>
+<img src="https://picsum.photos/600/1000?3">
 </div>
 
-<div class="card">
+<div class="analytics-card">
 <h3>Messaging</h3>
-<p>Conversations started</p>
-<img src="https://i.imgur.com/6m7fR9l.jpeg">
+<p>Conversations Started</p>
+<img src="https://picsum.photos/600/1000?4">
 </div>
 
 </div>
@@ -519,7 +593,9 @@ REACH Summerstrand — Reformed Evangelical Anglican Church
 
 <div class="glow"></div>
 
-<div class="label">Closing</div>
+<div class="label">
+Closing
+</div>
 
 <h2 class="h2">
 Thank You
@@ -552,15 +628,19 @@ For the support, consistency and growth ✨
 
 </section>
 
-<!-- NAVIGATION -->
+<!-- NAV -->
 
 <div class="nav">
 
-<button id="prevBtn">← Prev</button>
+<button id="prev">
+← Prev
+</button>
 
 <div class="dots" id="dots"></div>
 
-<button id="nextBtn">Next →</button>
+<button id="next">
+Next →
+</button>
 
 </div>
 
@@ -574,18 +654,20 @@ let current = 0;
 
 /* CREATE DOTS */
 
-slides.forEach((_,index)=>{
+slides.forEach((slide,index)=>{
 
 const dot = document.createElement('div');
 
 dot.classList.add('dot');
 
-if(index===0){
+if(index === 0){
 dot.classList.add('active');
 }
 
 dot.addEventListener('click',()=>{
-goToSlide(index);
+
+showSlide(index);
+
 });
 
 dotsContainer.appendChild(dot);
@@ -596,7 +678,7 @@ const dots = document.querySelectorAll('.dot');
 
 /* SHOW SLIDE */
 
-function goToSlide(index){
+function showSlide(index){
 
 slides[current].classList.remove('active');
 dots[current].classList.remove('active');
@@ -624,17 +706,17 @@ String(slides.length).padStart(2,'0');
 
 /* BUTTONS */
 
-document.getElementById('nextBtn')
+document.getElementById('next')
 .addEventListener('click',()=>{
 
-goToSlide(current + 1);
+showSlide(current + 1);
 
 });
 
-document.getElementById('prevBtn')
+document.getElementById('prev')
 .addEventListener('click',()=>{
 
-goToSlide(current - 1);
+showSlide(current - 1);
 
 });
 
@@ -643,11 +725,11 @@ goToSlide(current - 1);
 document.addEventListener('keydown',(e)=>{
 
 if(e.key === 'ArrowRight'){
-goToSlide(current + 1);
+showSlide(current + 1);
 }
 
 if(e.key === 'ArrowLeft'){
-goToSlide(current - 1);
+showSlide(current - 1);
 }
 
 });
